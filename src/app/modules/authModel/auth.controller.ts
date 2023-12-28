@@ -7,8 +7,8 @@ const loginUser = CatchAsyncError(async (req, res) => {
   const result = await AuthServices.loginUserService(req.body);
 
   sendResponse(res, {
-    statusCode: httpStatus.OK,
     success: true,
+    statusCode: 200,
     message: "User is logged in succesfully!",
     data: result,
   });

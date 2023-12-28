@@ -19,6 +19,7 @@ const auth = (...requiredRoles: TuserRole[]) => {
         token,
         config.jwt_access_secret as string,
         function (err, decoded) {
+          console.log(decoded);
           if (err) {
             throw new AppError(httpStatus.NOT_FOUND, "You are not authorised");
           }

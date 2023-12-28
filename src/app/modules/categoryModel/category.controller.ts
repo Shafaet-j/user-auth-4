@@ -7,6 +7,7 @@ import sendResponse from "../../utils/sendResponds";
 const createCategory = CatchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     const category = req.body;
+    category.createdBy = req?.user?._id;
     const result = await categoryService.createCategoryIntoDb(category);
     sendResponse(res, {
       statusCode: 201,

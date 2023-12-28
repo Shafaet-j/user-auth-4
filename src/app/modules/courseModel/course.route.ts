@@ -9,6 +9,7 @@ const router = express.Router();
 
 router.post(
   "/api/course",
+  auth(USER_ROLE.admin),
   validateRequest(courseValidation.createCourseValidationSchema),
   CourseController.createCourse
 );
@@ -19,11 +20,7 @@ router.put(
   CourseController.updatePartialCourse
 );
 router.get("/api/courses/:courseId", CourseController.getSingleCourse);
-router.get(
-  "/api/courses",
-  auth(USER_ROLE.user),
-  CourseController.getAllCourses
-);
+router.get("/api/courses", CourseController.getAllCourses);
 router.get("/api/course/best", CourseController.getBestCourse);
 
 export const CourseRoutes = router;

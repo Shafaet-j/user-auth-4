@@ -8,7 +8,9 @@ import config from "../../config";
 
 const loginUserService = async (payload: TLoginUser) => {
   console.log(payload);
-  const isUserExist = await User.findOne({ username: payload?.username });
+  const isUserExist = await User.findOne({
+    username: payload?.username,
+  }).select("+password");
   console.log(isUserExist);
   if (!isUserExist) {
     throw new AppError(httpStatus.NOT_FOUND, "this user not found");
@@ -17,21 +19,32 @@ const loginUserService = async (payload: TLoginUser) => {
     payload?.password,
     isUserExist?.password
   );
+  console.log(isPasswordMatched);
   if (!isPasswordMatched) {
     throw new AppError(httpStatus.NOT_FOUND, "password doesnot match");
   }
 
   //   create token and send to client
   const jwtPayload = {
-    username: isUserExist.username,
+    _id: isUserExist._id,
+    email: isUserExist.email,
     role: isUserExist.role,
   };
 
-  const accessToken = jwt.sign(jwtPayload, config.jwt_access_secret as string, {
+  const token = jwt.sign(jwtPayload, config.jwt_access_secret as string, {
     expiresIn: 60 * 60,
   });
+
+  const result = {
+    ...isUserExist.toObject(),
+    password: undefined,
+    createdAt: undefined,
+    updatedAt: undefined,
+  };
+
   return {
-    accessToken,
+    user: result,
+    token,
   };
 };
 
