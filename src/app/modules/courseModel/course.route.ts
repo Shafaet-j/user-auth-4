@@ -2,6 +2,7 @@ import express from "express";
 import { CourseController } from "./course.controller";
 import validateRequest from "../../middlewares/validateRequest";
 import { courseValidation } from "./course.validation";
+import auth from "../../middlewares/auth";
 
 const router = express.Router();
 
@@ -17,7 +18,7 @@ router.put(
   CourseController.updatePartialCourse
 );
 router.get("/api/courses/:courseId", CourseController.getSingleCourse);
-router.get("/api/courses", CourseController.getAllCourses);
+router.get("/api/courses", auth(), CourseController.getAllCourses);
 router.get("/api/course/best", CourseController.getBestCourse);
 
 export const CourseRoutes = router;
