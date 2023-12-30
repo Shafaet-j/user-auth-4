@@ -21,11 +21,11 @@ const moduleRoutes = [
     route: ReviewRoutes,
   },
   {
-    path: "/",
+    path: "/auth",
     route: UserRoutes,
   },
   {
-    path: "/",
+    path: "/auth",
     route: AuthRoutes,
   },
 ];
