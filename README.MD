@@ -2,7 +2,7 @@
 
 # How to Run the project
 
-## First you have to install node.Then you have convert the typescript code to javascript by doing `npm run dev`. Then you can start the server by doing `npm start`.
+## First you have to install node.Then you have convert the typescript code to javascript by doing `npm run start:dev`. Then you can start the server by doing `npm start`.
 
 # Crud feature:
 

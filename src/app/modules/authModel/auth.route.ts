@@ -9,12 +9,12 @@ import { USER_ROLE } from "../userModel/user.constant";
 const router = express.Router();
 
 router.post(
-  "/api/auth/login",
+  "/login",
   validateRequest(AuthValidation.loginValidationSchema),
   AuthControllers.loginUser
 );
 router.post(
-  "/api/auth/change-password",
+  "/change-password",
   auth(USER_ROLE.admin, USER_ROLE.user),
   validateRequest(AuthValidation.changePasswordValidation),
   AuthControllers.changePassword

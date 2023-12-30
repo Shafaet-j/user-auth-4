@@ -8,20 +8,20 @@ import { USER_ROLE } from "../userModel/user.constant";
 const router = express.Router();
 
 router.post(
-  "/api/course",
+  "/course",
   auth(USER_ROLE.admin),
   validateRequest(courseValidation.createCourseValidationSchema),
   CourseController.createCourse
 );
-router.get("/api/courses/:courseId/reviews", CourseController.getSingleCourse);
+router.get("/courses/:courseId/reviews", CourseController.getSingleCourse);
 router.put(
-  "/api/courses/:courseId",
+  "/courses/:courseId",
   auth(USER_ROLE.admin),
   validateRequest(courseValidation.updateCourseValidationSchema),
   CourseController.updatePartialCourse
 );
-router.get("/api/courses/:courseId", CourseController.getSingleCourse);
-router.get("/api/courses", CourseController.getAllCourses);
-router.get("/api/course/best", CourseController.getBestCourse);
+router.get("/courses/:courseId", CourseController.getSingleCourse);
+router.get("/courses", CourseController.getAllCourses);
+router.get("/course/best", CourseController.getBestCourse);
 
 export const CourseRoutes = router;

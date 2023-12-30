@@ -6,10 +6,10 @@ import { USER_ROLE } from "../userModel/user.constant";
 const router = express.Router();
 
 router.post(
-  "/api/categories",
+  "/categories",
   auth(USER_ROLE.admin),
   CategoryController.createCategory
 );
-router.get("/api/categories", CategoryController.getAllCategory);
+router.get("/categories", CategoryController.getAllCategory);
 
 export const CategoryRoutes = router;
