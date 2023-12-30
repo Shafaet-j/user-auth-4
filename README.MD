@@ -6,6 +6,12 @@
 
 # Crud feature:
 
+## Create a user : Post `/api/auth/register`
+
+## Login user : Post `/api/auth/login`
+
+## Change Password : Post `/api/auth/change-password`
+
 ## Create a Course : Post `/api/course`
 
 ## Get Paginated and Filtered Courses : Get `api/courses`
