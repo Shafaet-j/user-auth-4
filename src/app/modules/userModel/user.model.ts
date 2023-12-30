@@ -20,6 +20,14 @@ const userSchema = new Schema<TUser>(
       required: true,
       select: 0,
     },
+    oldPassword: {
+      type: String,
+      select: false,
+    },
+    moreOldPassword: {
+      type: String,
+      select: false,
+    },
     role: {
       type: String,
       enum: ["user", "admin"],
@@ -31,6 +39,8 @@ const userSchema = new Schema<TUser>(
 
 userSchema.pre("save", async function () {
   this.password = await bcrypt.hash(this.password, Number(config.bcrypt_salt));
+  this.oldPassword = this.password;
+  this.moreOldPassword = this.password;
 });
 
 export const User = model<TUser>("User", userSchema);

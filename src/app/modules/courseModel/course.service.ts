@@ -19,9 +19,7 @@ export type Query = {
 };
 
 const createCourseIntoDb = async (courseData: TCourse) => {
-  const course = new Course(courseData);
-  const result = await course.save();
-  return result;
+  return await Course.create(courseData);
 };
 
 const getAllCourseFromDb = async (query: Record<string, unknown>) => {
@@ -72,6 +70,7 @@ const getAllCourseFromDb = async (query: Record<string, unknown>) => {
 
   const skip = (Number(page) - 1) * Number(limit);
   const courses = await Course.find(searchTerm)
+    .populate("createdBy")
     .sort(sort)
     .skip(skip)
     .limit(Number(limit))
@@ -89,7 +88,10 @@ const getAllCourseFromDb = async (query: Record<string, unknown>) => {
 };
 
 const getSingleCourseWithReviewFromDb = async (courseId: string) => {
-  const course = await Course.findById(courseId);
+  const course = await Course.findById(courseId).populate({
+    path: "createdBy",
+    select: "_id email role username",
+  });
 
   return course;
 };
@@ -114,6 +116,9 @@ const updateCourseFromDb = async (
   return await Course.findByIdAndUpdate(courseId, modifiedData, {
     new: true,
     runValidators: true,
+  }).populate({
+    path: "createdBy",
+    select: "_id email role username",
   });
 };
 const getBestCourseFromDb = async () => {};

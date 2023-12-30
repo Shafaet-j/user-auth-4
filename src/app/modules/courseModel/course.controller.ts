@@ -8,7 +8,7 @@ import { ReviewService } from "../reviewModel/review.service";
 const createCourse = CatchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     const course = req.body;
-
+    course.createdBy = req?.user?._id;
     const result = await CourseService.createCourseIntoDb(course);
     sendResponse(res, {
       statusCode: 201,
@@ -37,6 +37,7 @@ const getSingleCourse = CatchAsyncError(
     const course = await CourseService.getSingleCourseWithReviewFromDb(
       courseId
     );
+
     const reviews = await ReviewService.getReviewByCourseID(courseId);
     sendResponse(res, {
       statusCode: 200,

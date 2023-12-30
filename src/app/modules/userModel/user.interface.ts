@@ -5,6 +5,8 @@ export type TUser = {
   email: string;
   password: string;
   role: "user" | "admin";
+  oldPassword: string;
+  moreOldPassword: string;
 };
 
 export type TuserRole = keyof typeof USER_ROLE;

@@ -53,6 +53,16 @@ const globalErrorHandler = (
     message = simpleError?.message;
     errorMessage = simpleError.errorMessage;
     errorDetails = simpleError?.errorDetails;
+  } else if (err?.statusCode === 401) {
+    message = "Unauthorized Access";
+    errorMessage =
+      "You do not have the necessary permissions to access this resource.";
+    errorDetails = null;
+  } else if (err?.name === "JsonWebTokenError") {
+    message = "Unauthorized Access";
+    errorMessage =
+      "You do not have the necessary permissions to access this resource.";
+    errorDetails = null;
   }
 
   return res.status(statusCode).json({

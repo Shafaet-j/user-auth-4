@@ -26,7 +26,7 @@ import { CatchAsyncError } from "../../utils/CatchAsyncError";
 
 const createReview = CatchAsyncError(async (req: Request, res: Response) => {
   const review = req.body;
-
+  review.createdBy = req?.user?._id;
   const result = await ReviewService.createReviewIntoDb(review);
   res.status(200).json({
     success: true,

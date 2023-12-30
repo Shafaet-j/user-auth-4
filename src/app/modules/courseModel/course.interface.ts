@@ -1,3 +1,4 @@
+import { Schema } from "mongoose";
 import { Types } from "mongoose";
 
 export type TTags = {
@@ -22,4 +23,5 @@ export type TCourse = {
   provider: string;
   durationInWeeks: number;
   details: TDetails;
+  createdBy: Schema.Types.ObjectId;
 };

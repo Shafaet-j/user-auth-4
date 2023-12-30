@@ -9,8 +9,11 @@ const createCategoryIntoDb = async (categoryData: TCategory) => {
 };
 
 const getAllCategoryFromDb = async () => {
-  const result = await Category.find();
-  return result;
+  const result = await Category.find().populate({
+    path: "createdBy",
+    select: "_id email role username",
+  });
+  return { categories: result };
 };
 
 export const categoryService = {

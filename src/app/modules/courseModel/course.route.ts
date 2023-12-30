@@ -16,6 +16,7 @@ router.post(
 router.get("/api/courses/:courseId/reviews", CourseController.getSingleCourse);
 router.put(
   "/api/courses/:courseId",
+  auth(USER_ROLE.admin),
   validateRequest(courseValidation.updateCourseValidationSchema),
   CourseController.updatePartialCourse
 );

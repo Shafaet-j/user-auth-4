@@ -1,9 +1,9 @@
 import httpStatus from "http-status";
 import AppError from "../../errors/AppError";
 import { User } from "../userModel/user.model";
-import { TLoginUser } from "./auth.interface";
+import { TChangePassword, TLoginUser } from "./auth.interface";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 import config from "../../config";
 
 const loginUserService = async (payload: TLoginUser) => {
@@ -48,6 +48,61 @@ const loginUserService = async (payload: TLoginUser) => {
   };
 };
 
+const changePasswordIntoDB = async (
+  payload: TChangePassword,
+  userData: JwtPayload
+) => {
+  const user = await User.findById(userData?._id).select(
+    "+password +oldPassword +moreOldPassword"
+  );
+  console.log({ user }, { userData }, { payload });
+  if (!user) {
+    throw new AppError(401, `Your provided Token is not valid user!`);
+  }
+
+  if (payload.currentPassword === payload.newPassword) {
+    return null;
+  }
+
+  //checking if the current password is matched
+  const isPasswordMatched = await bcrypt.compare(
+    payload.currentPassword,
+    user.password
+  );
+  if (!isPasswordMatched) {
+    return null;
+  }
+
+  const isMatchWithOldPassword = await bcrypt.compare(
+    payload.newPassword,
+    user?.oldPassword
+  );
+  const isMatchWithMoreOldPassword = await bcrypt.compare(
+    payload.newPassword,
+    user?.moreOldPassword
+  );
+
+  if (isMatchWithOldPassword || isMatchWithMoreOldPassword) {
+    return null;
+  }
+
+  const hashPassword = await bcrypt.hash(
+    payload.newPassword,
+    Number(config.bcrypt_salt)
+  );
+
+  return await User.findByIdAndUpdate(
+    userData?._id,
+    {
+      password: hashPassword,
+      oldPassword: user?.password,
+      moreOldPassword: user?.oldPassword,
+    },
+    { new: true }
+  );
+};
+
 export const AuthServices = {
   loginUserService,
+  changePasswordIntoDB,
 };
