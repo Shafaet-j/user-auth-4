@@ -27,3 +27,4 @@
 ## Get Course by ID with Reviews : Get `/api/courses/:courseId/reviews`
 
 ## Get the Best Course Based on Average Review : Get `/api/course/best`
+## Api Documentation: https://documenter.getpostman.com/view/27391617/2s9YsDja6c
